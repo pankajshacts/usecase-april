@@ -1,6 +1,5 @@
-import logger from "../config/logger.config.js";
-import BadRequestError from "../error/badrequest.error.js";
-import NotFoundError from "../error/notfound.error.js";
+import { logger } from "../config/index.js";
+import { BadRequestError, NotFoundError } from "../error/index.js";
 import { dateUtils } from "../utils/index.js";
 
 export default class SoldItemService{

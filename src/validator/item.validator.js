@@ -1,8 +1,8 @@
-import BadRequestError from "../error/badrequest.error.js";
+import { BadRequestError } from "../error/index.js";
 import {z} from "zod";
 import mongoose from "mongoose";
 import { dateUtils } from "../utils/index.js";
-import logger from "../config/logger.config.js";
+import { logger } from "../config/index.js";
 
 export const createItemRequestSchema = z.object({
     name: z.string({

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import logger from "../config/logger.config.js";
+import { logger } from "../config/index.js";
 import { ItemModel } from "../model/item.model.js";
 import { SoldItemModel } from "../model/sold_item.model.js";
 

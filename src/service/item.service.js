@@ -1,7 +1,5 @@
-import logger from "../config/logger.config.js";
-import BadRequestError from "../error/badrequest.error.js";
-import MethodNotAllowed from "../error/notallowed.error.js";
-import NotFoundError from "../error/notfound.error.js";
+import { logger } from "../config/index.js";
+import { BadRequestError, MethodNotAllowed, NotFoundError } from "../error/index.js";
 
 export default class ItemService{
     

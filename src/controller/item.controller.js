@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import logger from "../config/logger.config.js";
-import ItemRepository from "../repository/item.repository.js";
-import ItemService from "../service/item.service.js";
+import { ItemService } from "../service/index.js";
+import { ItemRepository } from "../repository/index.js"
+import { logger } from "../config/index.js";
 
 const itemService = new ItemService(new ItemRepository());
 

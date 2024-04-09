@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import logger from "../config/logger.config.js";
-import SoldItemRepository from "../repository/solditem.repository.js";
-import SoldItemService from "../service/solditem.service.js";
+import { logger } from "../config/index.js";
+import { SoldItemRepository } from "../repository/index.js";
+import { SoldItemService } from "../service/index.js";
 
 const soldItemService = new SoldItemService(new SoldItemRepository());
 
