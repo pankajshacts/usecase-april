@@ -8,6 +8,5 @@ export default async function dbConnect(){
     }catch(error){
         logger.error("Database connection failed");
         logger.error(error);
-        process.exit(1);
     }
 }
