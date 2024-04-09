@@ -1,7 +1,7 @@
 import BadRequestError from "../error/badrequest.error.js";
 import {z} from "zod";
 import mongoose from "mongoose";
-import isValidDate from "../utils/isValidDate.js";
+import { dateUtils } from "../utils/index.js";
 
 export const createItemRequestSchema = z.object({
     name: z.string({
@@ -9,10 +9,12 @@ export const createItemRequestSchema = z.object({
         invalid_type_error: "Name must be a valid string of charcter(s)",
     }).min(3, {message: "Name should contain atleast 3 characters(s)"}),
 
-    expiryDate: z.coerce.date({
-        required_error: "Expiry date is required",
-        invalid_type_error: "Expiry date should follow a valid date format",
-    }).min(new Date(), {message: "Expiry date should be greater than today's date"}),
+    expiryDate: z.string().refine((value)=> {
+        return dateUtils.isValidDate(value)
+    }
+    ,{
+        message: "Expiry date should be a valid date",
+    }),
 
     quantity: z.number({
         required_error: "Quantity is required",
@@ -30,7 +32,7 @@ export const createItemRequestSchema = z.object({
     }).gte(1, {message: "Selling price should be greater than 0"})
 
 }).strict({
-    message: "The request body has unrecognized item field"
+        message: "The request body has unrecognized item field"
 });
 
 export const updateItemRequestSchema = createItemRequestSchema.partial();
@@ -57,14 +59,11 @@ export const profitRequestSchema = z.object({
         message: "The request body has unrecognized field"
     })
     .refine((value)=>{
-        return isValidDate(value.date);
+        return dateUtils.isValidDate(value.date);
     }, {
-        message: "Invalid date! Supported date format: [MM/DD/YYYY, YYYY/MM/DD]",
+        message: "Date should be a valid date",
         path: ["date"]
-    }).refine(value=>new Date(value.date) <= new Date(), {
-        message: "Date must be atleast today's date",
-        path: ["date"]
-});
+    });
 
 export function validateRequestParams(schema){
     return function (req, _res, next){
@@ -96,7 +95,6 @@ export function validateRequestBody(schema){
     
             if(!parsedBody.success){
                 const {message, path} = parsedBody.error.errors[0];
-                console.log(parsedBody.error)
                 throw new BadRequestError(`Invalid ${path?path:"data"}`, message);
             }
     
