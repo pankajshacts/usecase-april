@@ -2,6 +2,7 @@ import BadRequestError from "../error/badrequest.error.js";
 import {z} from "zod";
 import mongoose from "mongoose";
 import { dateUtils } from "../utils/index.js";
+import logger from "../config/logger.config.js";
 
 export const createItemRequestSchema = z.object({
     name: z.string({
@@ -69,17 +70,21 @@ export function validateRequestParams(schema){
     return function (req, _res, next){
 
         try{
+            logger.info("Validator: validating request params");
             const parsedParams = schema.safeParse(req.params);
     
             if(!parsedParams.success){
+                logger.error("Validator: validation failed");
                 const {message, path} = parsedParams.error.errors[0];
                 throw new BadRequestError(`Invalid ${path?path:"data"}`, message);
             }
     
             req.params = parsedParams.data;
+            logger.info("Validator: validation success");
             next();
     
         }catch(error){
+            logger.error(error);
             next(error);
         }
     }
@@ -90,18 +95,21 @@ export function validateRequestBody(schema){
 
     return function (req, _res, next){
         try{
-
+            logger.info("Validator: validating request body");
             const parsedBody = schema.safeParse(req.body);
     
             if(!parsedBody.success){
+                logger.error("Validator: validation failed");
                 const {message, path} = parsedBody.error.errors[0];
                 throw new BadRequestError(`Invalid ${path?path:"data"}`, message);
             }
     
             req.body = parsedBody.data;
+            logger.info("Validator: validation success");
             next();
     
         }catch(error){
+            logger.error(error);
             next(error);
         }
     }
