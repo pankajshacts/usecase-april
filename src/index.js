@@ -1,8 +1,8 @@
 import express from "express";
-import StatusCode from "http-status-codes";
-import errorHandler from "./utils/errorHandler.js";
+import { StatusCodes } from "http-status-codes";
+import { errorHandler } from "./utils/index.js";
 import apiRouter from "./routes/index.js";
-import {serverConfig, dbConnect, logger} from "./config/index.js"
+import { serverConfig, dbConnect, logger } from "./config/index.js"
 
 function createApp(){
     
@@ -19,7 +19,7 @@ function createApp(){
     app.use("/api", apiRouter);
 
     app.get("/healthcheck", function healtcheck(_req, res){
-        return res.status(StatusCode.OK).json({
+        return res.status(StatusCodes.OK).json({
             message: "server is healthy"
         })
     })
@@ -32,9 +32,9 @@ function createApp(){
         app.listen(PORT, function start(){
             logger.info(`Server is running on ${PORT}`);
         });
-    }).catch((error)=>{
-        logger.error("Database connection failed");
-        logger.error(error);
+    }).catch(()=>{
+        logger.info("Process exit");
+        process.exit(1);
     })
 }
 
