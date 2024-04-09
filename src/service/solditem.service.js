@@ -1,4 +1,6 @@
+import BadRequestError from "../error/badrequest.error.js";
 import NotFoundError from "../error/notfound.error.js";
+import { dateUtils } from "../utils/index.js";
 
 export default class SoldItemService{
 
@@ -24,9 +26,16 @@ export default class SoldItemService{
         return await this.soldItemRepository.findAllSoldItemsByDate(date);
     }
 
-    async calculateProfit(date){
+    async calculateProfit(dateString){
 
-        date = new Date(date);
+        const date = dateUtils.stringToDate(dateString);
+
+        if(new Date(date) > new Date()){
+            throw new BadRequestError(`Cannot fetch profit for date ${date.toLocaleString()}`, {
+                msg: "Date should not be greater than today's date",
+                date: dateString,
+            })
+        }
 
         const soldItems = await this.soldItemRepository.findSoldItemsByDate(date);
 

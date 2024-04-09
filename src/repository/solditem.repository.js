@@ -10,11 +10,11 @@ export default class SoldItemRepository{
     }
 
     async findSoldItemsByDate(date){
+
         const startDay = new Date(date);
         const endDay = new Date(date);
+        endDay.setDate(startDay.getDate() + 1);
 
-        endDay.setDate(date.getDate() + 1);
-    
         return await SoldItemModel.find({sellingDate:{
             $gte: startDay,
             $lt: endDay,

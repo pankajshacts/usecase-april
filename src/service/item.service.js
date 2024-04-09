@@ -1,4 +1,5 @@
 import logger from "../config/logger.config.js";
+import BadRequestError from "../error/badrequest.error.js";
 import MethodNotAllowed from "../error/notallowed.error.js";
 import NotFoundError from "../error/notfound.error.js";
 
@@ -71,7 +72,16 @@ export default class ItemService{
     async createItem(item){
         logger.info("ItemService: creating item");
 
+        const currentDate = new Date();
         item.expiryDate = new Date(item.expiryDate);
+        
+        if(item.expiryDate < currentDate){
+            throw new BadRequestError("Invalid expiry date", {
+                msg: "Expiry date should be greater than today's date",
+                expiryDate: item.expiryDate 
+            })
+        }
+
         return await this.itemRepository.createItem(item);
     }
 
