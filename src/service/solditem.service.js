@@ -38,9 +38,9 @@ export default class SoldItemService{
         logger.info("SoldItemService: convert string to date");
         const date = dateUtils.stringToDate(dateString);
 
-        if(new Date(date) > new Date()){
+        if(date > new Date()){
             logger.error("SoldItemService: profit date is greater than today's date");
-            throw new BadRequestError(`Cannot fetch profit for date ${date.toLocaleString()}`, {
+            throw new BadRequestError(`Cannot fetch profit for date ${date.toDateString()}`, {
                 msg: "Date should not be greater than today's date",
                 date: dateString,
             })
