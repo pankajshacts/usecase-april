@@ -170,7 +170,7 @@ export async function sellItemById(req, res, next){
 
         return res.status(StatusCodes.CREATED).json({
             success: true,
-            message: `Successfully sold ${quantity} item(s)`,
+            message: `Successfully sold ${req.body.quantity} item(s)`,
         })
         
     }catch(error){
