@@ -5,7 +5,7 @@ import { createItemRequestSchema, idSchema, sellItemRequestSchema, updateItemReq
 const itemRouter = Router();
 
 itemRouter.post("/", validateRequestBody(createItemRequestSchema), ItemController.createItem);
-itemRouter.post("/:id", 
+itemRouter.post("/itemid/:id", 
 validateRequestParams(idSchema), validateRequestBody(sellItemRequestSchema), 
 ItemController.sellItemById)
 
@@ -17,7 +17,7 @@ itemRouter.delete("/itemid/:id", validateRequestParams(idSchema), ItemController
 itemRouter.delete("/expireditems", ItemController.deleteExpiredItems);
 
 
-itemRouter.patch("/:id",
+itemRouter.patch("/itemid/:id",
 validateRequestParams(idSchema),
 validateRequestBody(updateItemRequestSchema),
 ItemController.updateItemById);
