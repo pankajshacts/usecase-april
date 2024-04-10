@@ -8,7 +8,7 @@ const format = [
 ]
 
 export function stringToDate(dateString){
-   return moment(dateString, format);
+   return new Date(moment(dateString, format));
 }
 
 export function isValidDate(dateString){
