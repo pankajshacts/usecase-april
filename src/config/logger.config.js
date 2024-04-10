@@ -20,6 +20,4 @@ const logger = winston.createLogger({
     transports: allowedTransports
 })
 
-export default logger;  
-
-logger.error("error")
+export default logger;
