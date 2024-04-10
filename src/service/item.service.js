@@ -1,5 +1,6 @@
 import { logger } from "../config/index.js";
 import { BadRequestError, MethodNotAllowed, NotFoundError } from "../error/index.js";
+import { dateUtils } from "../utils/index.js";
 
 export default class ItemService{
     
@@ -66,6 +67,7 @@ export default class ItemService{
                 sellingDate: sellingDate,
             })
         }
+
         logger.info("ItemService: selling item");
 
         await this.itemRepository.sellItem(item, quantity, sellingDate);
@@ -85,8 +87,8 @@ export default class ItemService{
 
     async createItem(item){
         
+        item.expiryDate = dateUtils.stringToDate(item.expiryDate);
         const currentDate = new Date();
-        item.expiryDate = new Date(item.expiryDate);
         
         if(item.expiryDate < currentDate){
             logger.error("ItemService: Expiry date should be greater than today's date");
