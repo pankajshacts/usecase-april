@@ -40,7 +40,7 @@ export default class ItemRepository{
     async findAllExpiredItems(){
         logger.info("ItemRepository: fetching all expired items");
         return await ItemModel.find({
-            expiryDate: {$lte: new Date()}
+            expiryDate: {$lte: new Date()}  
         });
     }
 
